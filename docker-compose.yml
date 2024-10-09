@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  server:
+    build: ./server
+    ports:
+      - "50051:50051"
+    depends_on:
+      - worker1
+      - worker2
+    networks:
+      - storage-network
+  worker1:
+    build: ./worker
+    ports:
+      - "50052:50052"
+    environment:
+      - WORKER_NAME=worker1
+      - PORT=50052
+    networks:
+      - storage-network
+  worker2:
+    build: ./worker
+    ports:
+      - "50053:50052"
+    environment:
+      - WORKER_NAME=worker2
+      - PORT=50052
+    networks:
+      - storage-network
+
+networks:
+  storage-network:
